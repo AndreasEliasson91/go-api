@@ -24,15 +24,17 @@ func CleanupOldScores() error {
 }
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+	if os.Getenv("ENVIRONMENT") == "development" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
 	}
 
 	dbConnectionString := os.Getenv("DB_CONNECTION_STRING")
 	db.InitDB(dbConnectionString)
 
-	err = CleanupOldScores()
+	err := CleanupOldScores()
 	if err != nil {
 		log.Fatal("Error cleaning up old scores:", err)
 	}
