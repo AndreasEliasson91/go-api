@@ -8,22 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateScore(c *gin.Context) {
-	var input db.Score
-	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
-		return
-	}
-
-	_, err := db.DB.Exec("INSERT INTO Score (username, score, created_at) VALUES (?, ?, ?)", input.Username, input.Score, time.Now())
-	if err != nil {
-		c.JSON(500, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(200, gin.H{"message": "Score created successfully"})
-}
-
 func GetScore(c *gin.Context) {
 	id := c.Param("id")
 
